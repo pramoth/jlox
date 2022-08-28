@@ -1,4 +1,4 @@
-package org.th.co.geniustree.experiment;
+package th.co.geniustree.experiment;
 
 public enum TokenType {
     // Single-character tokens.

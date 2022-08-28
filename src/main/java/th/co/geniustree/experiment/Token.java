@@ -1,4 +1,4 @@
-package org.th.co.geniustree.experiment;
+package th.co.geniustree.experiment;
 
 public class Token {
     final TokenType type;

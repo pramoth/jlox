@@ -1,11 +1,11 @@
-package org.th.co.geniustree.experiment;
+package th.co.geniustree.experiment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.th.co.geniustree.experiment.TokenType.*;
+import static th.co.geniustree.experiment.TokenType.*;
 
 public class Scanner {
     private static final Map<String, TokenType> keywords;

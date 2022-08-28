@@ -1,4 +1,4 @@
-package org.th.co.geniustree.experiment;
+package th.co.geniustree.experiment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
