@@ -29,7 +29,6 @@ public class Interpreter implements Expr.Visitor<Object> {
                 if (left instanceof Double lft && right instanceof Double rgt) {
                     return lft + rgt;
                 }
-
                 if (left instanceof String lft && right instanceof String rgt) {
                     return lft + rgt;
                 }
@@ -39,7 +38,6 @@ public class Interpreter implements Expr.Visitor<Object> {
                 return (double) left / (double) right;
             case STAR:
                 checkNumberOperands(expr.operator(), left, right);
-                checkNumberOperand(expr.operator(), right);
                 return (double) left * (double) right;
         }
 
@@ -105,7 +103,7 @@ public class Interpreter implements Expr.Visitor<Object> {
         return true;
     }
 
-    private Object evaluate(Expr expression) {
+    Object evaluate(Expr expression) {
         return expression.accept(this);
     }
     public void interpret(Expr expression) {
