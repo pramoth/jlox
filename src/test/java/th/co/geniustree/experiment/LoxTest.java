@@ -16,4 +16,12 @@ public class LoxTest {
         System.out.println(astPrinter.print(expression));
         Assertions.assertEquals("(+ 6.0 (/ (* 2.0 3.0) 1.0))",astPrinter.print(expression));
     }
+    @Test
+    public void evalExpression() {
+        Lox.run("6+2*3/1");
+    }
+    @Test
+    public void evalExpressionError() {
+        Lox.run("6+2*3/A");
+    }
 }

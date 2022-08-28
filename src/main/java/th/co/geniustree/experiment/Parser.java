@@ -71,11 +71,11 @@ public class Parser {
             Expr right = unary();
             return new Expr.Unary(operator,right);
         }else{
-            return primaey();
+            return primary();
         }
     }
 
-    private Expr primaey() {
+    private Expr primary() {
         if (match(FALSE)) {
             return new Expr.Literal(false);
         }
