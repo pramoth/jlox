@@ -9,6 +9,10 @@ public sealed interface Expr {
         R visitLiteralExpr(Literal expr);
 
         R visitUnaryExpr(Unary expr);
+
+        R visitVariableExpr(Variable variable);
+
+        R visitAssignExpr(Assign assign);
     }
 
     abstract <R> R accept(Visitor<R> visitor);
@@ -38,6 +42,22 @@ public sealed interface Expr {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitUnaryExpr(this);
+        }
+    }
+
+    record Variable(Token name) implements Expr {
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitVariableExpr(this);
+        }
+    }
+
+    record Assign(Token name, Expr value) implements Expr {
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitAssignExpr(this);
         }
     }
 }
