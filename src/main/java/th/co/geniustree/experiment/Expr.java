@@ -13,6 +13,8 @@ public sealed interface Expr {
         R visitVariableExpr(Variable variable);
 
         R visitAssignExpr(Assign assign);
+
+        R visitLogicalExpr(Logical logical);
     }
 
     abstract <R> R accept(Visitor<R> visitor);
@@ -58,6 +60,14 @@ public sealed interface Expr {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitAssignExpr(this);
+        }
+    }
+
+    record Logical(Expr left, Token operator, Expr right) implements Expr {
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitLogicalExpr(this);
         }
     }
 }

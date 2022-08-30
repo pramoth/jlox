@@ -11,6 +11,10 @@ public sealed interface Stmt {
         R visitVarStmt(Var var);
 
         R visitBlockStmt(Block block);
+
+        R visitIfStmt(If anIf);
+
+        R visitWhileStmt(While aWhile);
     }
 
     abstract <R> R accept(Stmt.Visitor<R> visitor);
@@ -41,6 +45,21 @@ public sealed interface Stmt {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitBlockStmt(this);
+        }
+    }
+
+    record If(Expr condition, Stmt thenBranch, Stmt elseBranch) implements Stmt {
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitIfStmt(this);
+        }
+    }
+
+    record While(Expr condition, Stmt body) implements Stmt {
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitWhileStmt(this);
         }
     }
 }

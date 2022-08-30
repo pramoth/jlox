@@ -35,4 +35,17 @@ public class LoxTest {
                 print c;
                 """);
     }
+    @Test
+    public void forLoop(){
+        Lox.run("""
+                var a = 0;
+                var temp;
+                                
+                for (var b = 1; a < 10000; b = temp + b) {
+                  print a;
+                  temp = a;
+                  a = b;
+                }
+                """);
+    }
 }
