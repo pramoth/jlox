@@ -1,5 +1,7 @@
 package th.co.geniustree.experiment;
 
+import java.util.List;
+
 public sealed interface Expr {
     static interface Visitor<R> {
         R visitBinaryExpr(Binary expr);
@@ -15,6 +17,8 @@ public sealed interface Expr {
         R visitAssignExpr(Assign assign);
 
         R visitLogicalExpr(Logical logical);
+
+        R visitCallExpr(Call call);
     }
 
     abstract <R> R accept(Visitor<R> visitor);
@@ -68,6 +72,13 @@ public sealed interface Expr {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitLogicalExpr(this);
+        }
+    }
+    record Call(Expr calle, Token paren, List<Expr> arguments) implements Expr{
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitCallExpr(this);
         }
     }
 }
