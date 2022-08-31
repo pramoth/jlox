@@ -1,5 +1,6 @@
 package th.co.geniustree.experiment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
@@ -122,6 +123,24 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             }
         }
         return evaluate(expr.right());
+    }
+
+    @Override
+    public Object visitCallExpr(Expr.Call call) {
+        Object callee = evaluate(call.calle());
+        List<Object> arguments = new ArrayList<>();
+        for (Expr argument : call.arguments()) {
+            arguments.add(evaluate(argument));
+        }
+        if (callee instanceof LoxCallable function) {
+            if (arguments.size() != function.arity()) {
+                throw new RuntimeError(call.paren(), "Expected " +function.arity() + " arguments but got " + arguments.size() + ".");
+            }
+            return function.call(this, arguments);
+        } else {
+            throw new RuntimeError(call.paren(), "Can only call functions and classes.");
+        }
+
     }
 
     private boolean isTruthy(Object object) {
