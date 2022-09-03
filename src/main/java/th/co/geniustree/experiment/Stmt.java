@@ -15,6 +15,10 @@ public sealed interface Stmt {
         R visitIfStmt(If anIf);
 
         R visitWhileStmt(While aWhile);
+
+        R visitFunctionStmt(Function function);
+
+        R visitReturnStmt(Return aReturn);
     }
 
     abstract <R> R accept(Stmt.Visitor<R> visitor);
@@ -60,6 +64,21 @@ public sealed interface Stmt {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitWhileStmt(this);
+        }
+    }
+
+    record Function(Token name, List<Token> params, List<Stmt> body) implements Stmt {
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitFunctionStmt(this);
+        }
+    }
+    record Return(Token keyword,Expr value) implements Stmt{
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitReturnStmt(this);
         }
     }
 }
