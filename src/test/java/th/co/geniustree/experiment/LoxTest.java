@@ -13,7 +13,7 @@ public class LoxTest {
                 print "one";
                 print true;
                 print 2 - 1 + 1 + x;
-                
+                                
                 var a = "global a";
                 var b = "global b";
                 var c = "global c";
@@ -35,8 +35,9 @@ public class LoxTest {
                 print c;
                 """);
     }
+
     @Test
-    public void forLoop(){
+    public void forLoop() {
         Lox.run("""
                 var a = 0;
                 var temp;
@@ -48,8 +49,9 @@ public class LoxTest {
                 }
                 """);
     }
+
     @Test
-    public void function(){
+    public void function() {
         Lox.run("""
                 fun fib(n) {
                    if (n <= 1) return n;
@@ -63,7 +65,7 @@ public class LoxTest {
     }
 
     @Test
-    public void closure(){
+    public void closure() {
         Lox.run("""
                 fun makeCounter() {
                   var i = 0;
@@ -78,6 +80,16 @@ public class LoxTest {
                 var counter = makeCounter();
                 counter(); // "1".
                 counter(); // "2".
+                """);
+    }
+
+    @Test
+    public void bad() {
+        Lox.run("""
+        fun bad() {
+            var a = "first";
+            var a = "second";
+        }
                 """);
     }
 }
