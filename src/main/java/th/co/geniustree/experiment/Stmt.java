@@ -83,7 +83,7 @@ public sealed interface Stmt {
             return visitor.visitReturnStmt(this);
         }
     }
-    record Class(Token name,List<Stmt.Function> methods) implements Stmt{
+    record Class(Token name,Expr.Variable superclass,List<Stmt.Function> methods) implements Stmt{
 
         @Override
         public <R> R accept(Visitor<R> visitor) {

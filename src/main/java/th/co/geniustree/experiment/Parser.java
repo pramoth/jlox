@@ -44,13 +44,18 @@ public class Parser {
 
     private Stmt classDeclaration() {
         Token name = consume(IDENTIFIER, "");
+        Expr.Variable superclass = null;
+        if (match(LESS)) {
+            consume(IDENTIFIER, "Expect superclass name.");
+            superclass = new Expr.Variable(previous());
+        }
         consume(LEFT_BRACE, "Expect '{' after class name.");
         List<Stmt.Function> methods = new ArrayList<>();
         while (!check(RIGHT_BRACE) && !isAtEnd()) {
             methods.add(function("method"));
         }
         consume(RIGHT_BRACE, "Expect '}' after class name.");
-        return new Stmt.Class(name, methods);
+        return new Stmt.Class(name, superclass, methods);
     }
 
     private Stmt.Function function(String kind) {
@@ -210,8 +215,8 @@ public class Parser {
             if (expr instanceof Expr.Variable variable) {
                 Token name = variable.name();
                 return new Expr.Assign(name, value);
-            }else if(expr instanceof Expr.Get get){
-                return new Expr.Set(get.object(),get.name(),value);
+            } else if (expr instanceof Expr.Get get) {
+                return new Expr.Set(get.object(), get.name(), value);
             }
 
             error(equals, "Invalid assignment target.");
@@ -299,7 +304,7 @@ public class Parser {
                 expr = finishCall(expr);
             } else if (match(DOT)) {
                 Token name = consume(IDENTIFIER, "Expect property name after '.'.");
-                expr = new Expr.Get(expr,name);
+                expr = new Expr.Get(expr, name);
             } else {
                 break;
             }
@@ -345,6 +350,12 @@ public class Parser {
         }
         if (match(THIS)) {
             return new Expr.This(previous());
+        }
+        if (match(SUPER)) {
+            Token keyword = previous();
+            consume(DOT, "Expect '.' after 'super'.");
+            Token method = consume(IDENTIFIER, "Expect superclass method name.");
+            return new Expr.Super(keyword, method);
         }
         throw error(peek(), "Expect expression.");
     }
