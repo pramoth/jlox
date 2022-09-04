@@ -19,6 +19,12 @@ public sealed interface Expr {
         R visitLogicalExpr(Logical logical);
 
         R visitCallExpr(Call call);
+
+        R visitGetExpr(Get get);
+
+        R visitSetExpr(Set set);
+
+        R visitThisExpr(This expr);
     }
 
     abstract <R> R accept(Visitor<R> visitor);
@@ -74,11 +80,31 @@ public sealed interface Expr {
             return visitor.visitLogicalExpr(this);
         }
     }
-    record Call(Expr calle, Token paren, List<Expr> arguments) implements Expr{
+    record Call(Expr callee, Token paren, List<Expr> arguments) implements Expr{
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitCallExpr(this);
+        }
+    }
+    record Get(Expr object,Token name) implements Expr{
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitGetExpr(this);
+        }
+    }
+    record Set(Expr object, Token name, Expr value) implements Expr{
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitSetExpr(this);
+        }
+    }
+    record This(Token keyword) implements Expr{
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitThisExpr(this);
         }
     }
 }

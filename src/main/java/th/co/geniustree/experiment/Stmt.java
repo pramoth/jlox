@@ -19,6 +19,8 @@ public sealed interface Stmt {
         R visitFunctionStmt(Function function);
 
         R visitReturnStmt(Return aReturn);
+
+        R visitClassStmt(Class aClass);
     }
 
     abstract <R> R accept(Stmt.Visitor<R> visitor);
@@ -79,6 +81,13 @@ public sealed interface Stmt {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.visitReturnStmt(this);
+        }
+    }
+    record Class(Token name,List<Stmt.Function> methods) implements Stmt{
+
+        @Override
+        public <R> R accept(Visitor<R> visitor) {
+            return visitor.visitClassStmt(this);
         }
     }
 }
